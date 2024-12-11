@@ -5,7 +5,7 @@
     "dark": "/logo/s-l500.jpg",
     "light": "/logo/s-l500.jpg"
   },
-  "favicon": "/logo/favicon.ico",
+  "favicon": "/logo/favicon.svg",
   "colors": {
     "primary": "#0087d1",
     "light": "#07C983",
