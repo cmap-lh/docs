@@ -1,94 +1,159 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
+    "title": "CMapId API",
+    "version": "V4"
   },
-  "servers": [
-    {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
+    "/Clients": {
+      "post": {
+        "tags": [
+          "ClientEndpoints"
         ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
+        "summary": "Creates a new Client",
+        "description": "Creates a new Client",
+        "operationId": "Client.Create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientCreateApiRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientCreateApiRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientCreateApiRequest"
               }
             }
-          },
-          "400": {
-            "description": "Unexpected error",
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientCreateResponse"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ClientCreateResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientCreateResponse"
                 }
               }
             }
           }
         }
       },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          },
-          "required": true
-        },
+      "get": {
+        "tags": [
+          "ClientEndpoints"
+        ],
+        "summary": "Get All Clients",
+        "description": "Get All Clients",
+        "operationId": "Client.All",
         "responses": {
           "200": {
-            "description": "plant response",
+            "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetClientsApiResponse"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
+                  "$ref": "#/components/schemas/GetClientsApiResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetClientsApiResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "unexpected error",
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "ClientEndpoints"
+        ],
+        "summary": "Updates a Client",
+        "description": "Updates a Client",
+        "operationId": "Client.Update",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientUpdateApiRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientUpdateApiRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientUpdateApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Clients/{clientId}/Secrets": {
+      "post": {
+        "tags": [
+          "ClientEndpoints"
+        ],
+        "summary": "Creates a new Client Secret",
+        "description": "Creates a new Client Secret",
+        "operationId": "Client.CreateSecret",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecretCreateApiResponse"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/SecretCreateApiResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecretCreateApiResponse"
                 }
               }
             }
@@ -96,32 +161,172 @@
         }
       }
     },
-    "/plants/{id}": {
+    "/Clients/{clientId}": {
       "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
+        "tags": [
+          "ClientEndpoints"
+        ],
+        "summary": "Deletes a Client",
+        "description": "Deletes a Client",
+        "operationId": "Client.Delete",
         "parameters": [
           {
-            "name": "id",
+            "name": "clientId",
             "in": "path",
-            "description": "ID of plant to delete",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ClientEndpoints"
+        ],
+        "summary": "Get A Client By ClientId",
+        "description": "Get A Client By ClientId",
+        "operationId": "Client.ByClientId",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientApiModel"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ClientApiModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientApiModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Users/{userId}": {
+      "get": {
+        "tags": [
+          "UserEndpoints"
+        ],
+        "summary": "Get details about a user",
+        "description": "Get details about a user",
+        "operationId": "User.GetById",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserApiModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserApiModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserApiModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ApiResources": {
+      "get": {
+        "tags": [
+          "ApiResourceEndpoints"
+        ],
+        "summary": "Get All Discoverable Api Resources",
+        "description": "Get All Discoverable Api Resources",
+        "operationId": "ApiResource.Discoverable",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetApiResourceApiResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetApiResourceApiResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetApiResourceApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Clients/Internal": {
+      "get": {
+        "tags": [
+          "ClientEndpoints"
+        ],
+        "summary": "Get All Clients marked as Internal",
+        "description": "Get All Clients marked as Internal",
+        "operationId": "Client.All.Internal",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetClientsApiResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetClientsApiResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetClientsApiResponse"
                 }
               }
             }
@@ -132,63 +337,399 @@
   },
   "components": {
     "schemas": {
-      "Plant": {
+      "ApiResourceApiModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "requireResourceIndicator": {
+            "type": "boolean"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClientApiModel": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "clientUri": {
+            "type": "string",
+            "nullable": true
+          },
+          "requirePkce": {
+            "type": "boolean"
+          },
+          "requireClientSecret": {
+            "type": "boolean"
+          },
+          "redirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "postLogoutRedirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "backChannelLogoutUri": {
+            "type": "string",
+            "nullable": true
+          },
+          "enableLocalLogin": {
+            "type": "boolean"
+          },
+          "enabledProviders": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "allowedScopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "grantTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "claims": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClientCreateApiRequest": {
         "required": [
+          "grantTypes",
           "name"
         ],
         "type": "object",
         "properties": {
           "name": {
-            "description": "The name of the plant",
+            "maxLength": 200,
+            "minLength": 1,
             "type": "string"
           },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
+          "description": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string",
+            "nullable": true
           },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
+          "clientUri": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "visibility": {
+            "$ref": "#/components/schemas/Visibility"
+          },
+          "requirePkce": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "requireClientSecret": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "enableLocalLogin": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "redirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "postLogoutRedirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "backChannelLogoutUri": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "grantTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
             }
+          },
+          "allowedScopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "enabledProviders": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "claims": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
           }
-        ]
+        },
+        "additionalProperties": false
       },
-      "Error": {
+      "ClientCreateResponse": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "nullable": true
+          },
+          "clientSecret": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClientUpdateApiRequest": {
         "required": [
-          "error",
-          "message"
+          "clientId"
         ],
         "type": "object",
         "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
+          "clientId": {
+            "type": "string",
+            "format": "uuid"
           },
-          "message": {
-            "type": "string"
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string",
+            "nullable": true
+          },
+          "clientUri": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "visibility": {
+            "$ref": "#/components/schemas/Visibility"
+          },
+          "requirePkce": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "requireClientSecret": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "enableLocalLogin": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "redirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "postLogoutRedirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "backChannelLogoutUri": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "grantTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "allowedScopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "enabledProviders": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "claims": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
           }
-        }
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+        },
+        "additionalProperties": false
+      },
+      "GetApiResourceApiResponse": {
+        "type": "object",
+        "properties": {
+          "apiResources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiResourceApiModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetClientsApiResponse": {
+        "type": "object",
+        "properties": {
+          "clients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClientApiModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SecretCreateApiResponse": {
+        "type": "object",
+        "properties": {
+          "clientSecret": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserApiModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstname": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastname": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "userType": {
+            "$ref": "#/components/schemas/UserType"
+          },
+          "twoFactorEnabled": {
+            "type": "boolean"
+          },
+          "externalProviders": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserType": {
+        "enum": [
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "Visibility": {
+        "enum": [
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
       }
     }
   }
