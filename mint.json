@@ -2,14 +2,14 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "Louie Testing Docs",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/s-l500.jpg",
+    "light": "/logo/s-l500.jpg"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/logo/favicon.ico",
   "colors": {
-    "primary": "#0D9373",
+    "primary": "#0087d1",
     "light": "#07C983",
-    "dark": "#0D9373",
+    "dark": "#0087d1",
     "anchors": {
       "from": "#0D9373",
       "to": "#07C983"
